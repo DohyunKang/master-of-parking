@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>한이음 빌라 주차장 이용 안내</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'home/css/before_index_style.css' %}">
+  <link rel="stylesheet" href="{% static 'bootstrap2.min.css' %}">
+</head>
+<body>
+  <header>
+    <h1><img src="{% static 'home/img/주차마크.png' %}" width="40" height="40"> 주차의 달인</h1>
+    <h1></h1>
+    <h2><nav>
+      <ul>
+        <li><a href="">홈</a></li>
+        <li><a href="{% url 'login:login' %}">로그인</a></li>
+        <li><a href="{% url 'find:find' %}">아이디/비밀번호 찾기</a></li>
+        <li>{% if not user.is_authenticated %}<a href="{% url 'signup:signup' %}">회원가입</a>{% endif %}</li>
+      </ul>
+    </nav></h2>
+  </header>
+  <main>
+    <section class="intro">
+       <h2>로그인 후 이용 바랍니다.</h2>
+    </section>
+  </main>
+    <footer>
+    <h4>
+      <p>&copy; 2024 한이음 빌라 &nbsp;&nbsp; &phone;&nbsp; 010-xxxx-xxxx &nbsp;&nbsp; email: admin@example.com </p>
+    </h4>
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>주변 주차장</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'bootstrap2.min.css' %}">
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2yYe_MbKinVTHqH4SeDG2gxOgHpRZyws"></script> <!-- API 키 입력 -->
+  <style>
+    #map {
+      height: 600px;
+      width: 100%;
+    }
+  </style>
+  <script>
+    function initMap() {
+      var centerLocation = { lat: 37.4483, lng: 126.7317 }; // 인천 남동구 구월동 중심 위치
+
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 16,
+        center: centerLocation
+      });
+
+      // 임의의 주차장 위치 데이터 (10개)
+      var parkingLots = [
+        { lat: 37.4502, lng: 126.7331, name: '주차장 1' }, // 예시 주차장 1
+        { lat: 37.4479, lng: 126.7303, name: '주차장 2' }, // 예시 주차장 2
+        { lat: 37.4495, lng: 126.7350, name: '주차장 3' }, // 예시 주차장 3
+        { lat: 37.4468, lng: 126.7295, name: '주차장 4' }, // 예시 주차장 4
+        { lat: 37.4485, lng: 126.7320, name: '주차장 5' }, // 예시 주차장 5
+        { lat: 37.4507, lng: 126.7363, name: '주차장 6' }, // 예시 주차장 6
+        { lat: 37.4455, lng: 126.7287, name: '주차장 7' }, // 예시 주차장 7
+        { lat: 37.4512, lng: 126.7375, name: '주차장 8' }, // 예시 주차장 8
+        { lat: 37.4480, lng: 126.7300, name: '주차장 9' }, // 예시 주차장 9
+        { lat: 37.4490, lng: 126.7340, name: '주차장 10' } // 예시 주차장 10
+      ];
+
+      // 주차장 마커 추가
+      parkingLots.forEach(function(lot) {
+        var marker = new google.maps.Marker({
+          position: { lat: lot.lat, lng: lot.lng },
+          map: map,
+          title: lot.name
+        });
+
+        var infowindow = new google.maps.InfoWindow({
+          content: lot.name
+        });
+
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+      });
+    }
+  </script>
+</head>
+<body onload="initMap()">
+  <header>
+    <h1><img src="{% static 'home/img/주차마크.png' %}" width="40" height="40"> 주차의 달인</h1>
+    <h1></h1>
+    <h2><nav>
+      <ul>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'home:index' %}">홈</a></li>
+        <li><a href="{% url 'parking_status:parking_status' %}">주차현황</a></li>
+        <li><a href="{% url 'mypage:mypage' %}">{{ user.username }}의 마이페이지</a></li>
+        <li><a href="{% url 'login:logout' %}">로그아웃</a></li>
+        {% endif %}
+        {% if not user.is_authenticated %}
+        <li><a href="{% url 'home:index' %}">홈</a></li>
+        <li><a href="{% url 'login:login' %}">로그인</a></li>
+        <li><a href="{% url 'find:find' %}">아이디/비밀번호 찾기</a></li>
+        <li>{% if not user.is_authenticated %}<a href="{% url 'signup:signup' %}">회원가입</a>{% endif %}</li>
+        {% endif %}
+      </ul>
+    </nav></h2>
+  </header>
+  <main>
+    <h1><img src="{% static 'nearby_parking/img/주변주차장.png' %}" width="40" height="40">&nbsp;주변 주차장</h1>
+    <div id="map"></div>
+  </main>
+  <footer>
+    <h4>
+      <p>&copy; 2024 한이음 빌라 &nbsp;&nbsp; &phone;&nbsp; 010-xxxx-xxxx &nbsp;&nbsp; email: admin@example.com </p>
+    </h4>
+  </footer>
+</body>
+</html>

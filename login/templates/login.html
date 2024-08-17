@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 페이지</title>
+    {% load static %}
+  <link rel="stylesheet" href="{% static 'login/css/login_style.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap2.min.css' %}">
+</head>
+<body>
+    <header>
+        <h1><img src="{% static 'login/img/주차마크.png' %}" width="40" height="40"> 주차의 달인</h1>
+        <nav>
+            <h2>
+                <ul>
+                    <li><a href="{% url 'home:before_index' %}">Home</a></li>
+                    <li><a href="{% url 'signup:signup' %}">회원가입</a></li>
+                    <li><a href="{% url 'find:find' %}">아이디/비밀번호 찾기</a></li>
+                </ul>
+            </h2>
+        </nav>
+    </header>
+    <main>
+        <section class="login-details">
+            <h2>Login Details</h2>
+            <p>로그인을 위해 아이디와 비밀번호를 입력하세요.</p>
+            <form method="post" action="{% url 'login:login' %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}">  <!-- 로그인 성공후 이동되는 URL -->
+                {% include "form_errors.html" %}
+                <div>
+                    <label for="username">ID</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit">Log In</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <h4>
+            <p><p>&copy; 2024 한이음 빌라 &nbsp;&nbsp; &phone;&nbsp; 010-xxxx-xxxx &nbsp;&nbsp; email: admin@example.com </p></p>
+        </h4>
+    </footer>
+</body>
+</html>

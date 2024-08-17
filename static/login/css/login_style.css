@@ -1,0 +1,127 @@
+/* 전체 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* 헤더 스타일 */
+header {
+    background-color: #FFFFFF;
+    color: #1b1b1b;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+header h1 {
+  font-size: 55px;
+  margin: 0;
+}
+
+header h2 {
+    font-size: 15px;
+    margin: 0;
+    margin-top: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: #333333;
+    text-decoration: none;
+}
+
+/* 메인 섹션 스타일 */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+}
+
+.login-details {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    padding: 20px;
+}
+
+.login-details h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.login-details p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.login-details form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-details form div {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.login-details label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.login-details input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.login-details button {
+    padding: 10px 20px;
+    background-color: #000;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-details button:hover {
+    background-color: #333;
+}
+
+/* 푸터 스타일 */
+footer {
+    margin-top: 200px;
+    background-color: #FFFFFF;
+    color: #1b1b1b;
+    padding: 10px 30px;
+    text-align: center;
+    width: 100%;
+    border-top: 1px solid #ddd;
+}
+
+footer h4 {
+    font-size: 15px;
+    margin: 0;
+}

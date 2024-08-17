@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주차 현황</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap2.min.css' %}">
+    <style>
+        .parking-lot {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .parking-space {
+            border: 2px solid black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .empty {
+            background-color: green;
+        }
+
+        .occupied {
+            background-color: red;
+            color: white;
+        }
+
+        .visitor {
+            background-color: yellow;
+            color: black;
+        }
+
+        .recommended {
+            background-color: blue;
+            color: white;
+        }
+
+        .status-board {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 10px;
+            padding: 10px;
+            border: 1px solid black;
+            width: 250px;
+            justify-content: space-between;
+        }
+
+        .status-visitor {
+            background-color: yellow;
+        }
+
+        .status-resident {
+            background-color: red;
+            color: white;
+        }
+
+        .status-empty {
+            background-color: green;
+            color: white;
+        }
+
+        .average-time {
+            margin-top: 20px;
+        }
+
+        .real-time-image {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .real-time-image img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid black;
+        }
+    </style>
+    <script>
+        let initialized = false;
+
+        function fetchParkingData() {
+            fetch('/parking_status/get_parking_data/')
+                .then(response => response.json())
+                .then(data => {
+                    if (!initialized) {
+                        if (data.parking.length === 0) {
+                            initializeEmptyUI();
+                        } else {
+                            updateParkingUI(data);
+                        }
+                        initialized = true;
+                    } else {
+                        updateParkingUI(data);
+                    }
+
+                    updateSummary(data);
+                    updateRealTimeImage(data.image_url);
+                })
+                .catch(error => {
+                    console.error('Error fetching parking data:', error);
+                });
+        }
+
+        function initializeEmptyUI() {
+            const parkingLot = document.querySelector('.parking-lot');
+            parkingLot.innerHTML = '';
+            for (let i = 1; i <= 6; i++) {
+                const div = document.createElement('div');
+                div.classList.add('parking-space', 'empty');
+                div.innerHTML = `<h4>빈 주차공간</h4>`;
+                parkingLot.appendChild(div);
+            }
+            // 실시간 사진이 없을 때 메시지 표시
+            updateRealTimeImage(null);
+        }
+
+        function updateParkingUI(data) {
+            const parkingLot = document.querySelector('.parking-lot');
+            parkingLot.innerHTML = '';
+            data.parking.forEach(item => {
+                const div = document.createElement('div');
+                if (item.is_occupied) {
+                    if (isOutsider(item.plate_text)) {
+                        div.classList.add('parking-space', 'visitor');
+                        div.innerHTML = `
+                    <div>
+                        <h4>외부차량</h4>
+                        <p>차량번호: ${item.plate_text}</p>
+                    </div>
+                `;
+                    } else {
+                        div.classList.add('parking-space', 'occupied');
+                        div.innerHTML = `
+                    <div>
+                        <h4>차량 번호: ${item.plate_text}</h4>
+                        <p>예상 출차 시간</p>
+                    </div>
+                `;
+                    }
+                } else {
+                    div.classList.add('parking-space', 'empty');
+                    div.innerHTML = `<h4>빈 주차공간</h4>`;
+                }
+
+                if (item.index === data.recommended_space_index) {
+                    div.classList.add('recommended');
+                    div.innerHTML += '<p>추천 자리</p>';
+                }
+
+                parkingLot.appendChild(div);
+            });
+        }
+
+
+function isOutsider(plateText) {
+    return plateText && (plateText.includes('외부') || plateText.includes('방문객'));
+}
+
+        function updateSummary(data) {
+            const summary = document.querySelector('.status-board');
+            summary.innerHTML = `
+                <div class="status-item status-visitor">
+                    <span>외부차량 주차</span><span>${data.parking.filter(p => isOutsider(p.plate_text)).length}</span>
+                </div>
+                <div class="status-item status-resident">
+                    <span>거주인 차량 주차</span><span>${data.parking.filter(p => !isOutsider(p.plate_text) && p.is_occupied).length}</span>
+                </div>
+                <div class="status-item status-empty">
+                    <span>현재 남은 주차공간</span><span>${data.parking.filter(p => !p.is_occupied).length}</span>
+                </div>
+            `;
+        }
+
+        function updateRealTimeImage(imageUrl) {
+            const realTimeImage = document.getElementById('real-time-image');
+            if (imageUrl) {
+                realTimeImage.innerHTML = `<img src="${imageUrl}" alt="실시간 주차장 사진">`;
+            } else {
+                realTimeImage.innerHTML = '실시간 주차장 사진을 불러올 수 없습니다.';
+            }
+        }
+
+        function isOutsider(plateText) {
+            return plateText && (plateText.includes('외부') || plateText.includes('방문객'));
+        }
+
+        setInterval(fetchParkingData, 5000);  // 5초마다 데이터 갱신
+    </script>
+</head>
+<body onload="fetchParkingData()">
+<header>
+    <h1><img src="{% static 'home/img/주차마크.png' %}" width="40" height="40"> 주차의 달인</h1>
+    <h2><nav>
+        <ul>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'home:index' %}">홈</a></li>
+            <li><a href="{% url 'home:nearby_parking' %}">주변 주차장</a></li>
+            <li><a href="{% url 'mypage:mypage' %}">{{ user.username }}의 마이페이지</a></li>
+            <li><a href="{% url 'login:logout' %}">로그아웃</a></li>
+            {% endif %}
+            {% if not user.is_authenticated %}
+            <li><a href="{% url 'home:index' %}">홈</a></li>
+            <li><a href="{% url 'login:login' %}">로그인</a></li>
+            <li><a href="{% url 'find:find' %}">아이디/비밀번호 찾기</a></li>
+            <li>{% if not user.is_authenticated %}<a href="{% url 'signup:signup' %}">회원가입</a>{% endif %}</li>
+            {% endif %}
+        </ul>
+    </nav></h2>
+</header>
+<main>
+    <div>&nbsp;</div>
+    <div>
+        <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src="{% static 'home/img/이용현황1.png' %}" width="80" height="80">
+            &nbsp;한이음 빌라 주차 현황</h1>
+    </div>
+    <div class="container">
+        <section class="parking-status">
+            <div class="current-parking">
+                <h1>입구↓</h1>
+                <div class="parking-lot">
+                    <!-- 주차 공간은 JS에서 동적으로 추가됨 -->
+                </div>
+                <h1>출입 불가<img src="{% static 'parking_status/img/금지.png' %}" width="80" height="80"></h1>
+            </div>
+            <div class="status-board"></div>
+            <div id="average-times" class="average-time"></div>
+            <div id="today-entry-times" class="average-time"></div>
+            <div id="real-time-image" class="real-time-image">
+                <h2>실시간 주차장 사진</h2>
+                <!-- 실시간 주차장 사진이 여기에 표시됨 -->
+            </div>
+        </section>
+    </div>
+</main>
+<footer>
+    <h4>
+        <p>&copy; 2024 한이음 빌라 &nbsp;&nbsp; &phone;&nbsp; 010-xxxx-xxxx &nbsp;&nbsp; email: admin@example.com </p>
+    </h4>
+</footer>
+</body>
+</html>

@@ -1,0 +1,196 @@
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+nav ul li a {
+  color: #1b1b1b;
+  text-decoration: none;
+}
+
+/* 헤더 스타일 */
+header {
+    background-color: #FFFFFF;
+    color: #1b1b1b;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+header h1 {
+    font-size: 55px;
+    margin: 0;
+
+}
+
+header h2 {
+  font-size: 15px;
+  margin: 0;
+}
+
+/* 전체 영역 */
+.container {
+  width: 100%; /* 화면 너비 100% */
+  max-width: 1440px; /* 최대 너비 1440px */
+  margin: 0 auto; /* 가운데 정렬 */
+  padding: 20px; /* 여백 설정 */
+  font-family: sans-serif; /* 기본 글꼴 설정 */
+}
+
+/* 헤더 */
+.header2 {
+  background-color: #525252; /* 배경색 설정 */
+  color: #f6f6f6; /* 글자색 설정 */
+  padding: 10px; /* 여백 설정 */
+  text-align: center; /* 가운데 정렬 */
+}
+
+/* 제목 */
+h1 {
+  font-size: 24px; /* 글꼴 크기 설정 */
+  margin-bottom: 20px; /* 아래 여백 설정 */
+}
+
+/*타이틀*/
+h2 {
+  font-size: 55px; /* 글꼴 크기 설정 */
+}
+/*푸터 크기 */
+h3 {
+  font-size: 15px; /* 글꼴 크기 설정 */
+}
+
+/*푸터 크기 */
+h4 {
+  font-size: 18px;
+  color: #FFFFFF; /* 글꼴 색 설정 */
+}
+
+/*푸터 크기 */
+h5 {
+  font-size: 18px;
+  color: #1b1b1b; /* 글꼴 색 설정 */
+}
+
+
+/* 주차 정보 영역 */
+.parking-info {
+  border: 1px solid #1b1b1b; /* 테두리 설정 */
+  padding: 20px; /* 여백 설정 */
+}
+
+
+/* 빌라 이름, 차량 번호, 차종, 주차 구분 */
+.parking-info p {
+  margin-bottom: 5px; /* 아래 여백 설정 */
+}
+
+.parking-info h1 {
+  border: 2px solid #000000; /* 테두리 두께, 스타일, 색상 */
+  background-color: #f5dd5d;
+  font-size: 18px;
+  color: #1b1b1b;
+  padding: 5px 5px; /* 테두리와 텍스트 사이 간격 */
+  margin-right: 1160px;
+  margin-bottom: 5px; /* 아래 여백 설정 */
+  justify-content: center; /* 가로 방향으로 가운데 정렬 */
+  align-items: center; /* 수직 방향으로 가운데 정렬 */
+  border-collapse: collapse; /* 테이블 테두리 병합 */
+}
+
+.parking-info h5 {
+  border: 2px solid #000; /* 테두리 두께, 스타일, 색상 */
+  background-color: #CC3434;
+  font-size: 18px;
+  color: #1b1b1b;
+  padding: 5px 5px; /* 테두리와 텍스트 사이 간격 */
+  margin-right: 1160px;
+  margin-bottom: 5px; /* 아래 여백 설정 */
+  justify-content: center; /* 가로 방향으로 가운데 정렬 */
+  align-items: center; /* 수직 방향으로 가운데 정렬 */
+}
+
+.parking-info h3 {
+  border: 2px solid #000; /* 테두리 두께, 스타일, 색상 */
+  background-color: #5897fb;
+  font-size: 18px;
+  color: #1b1b1b;
+  padding: 5px 5px; /* 테두리와 텍스트 사이 간격 */
+  margin-right: 1160px;
+  margin-bottom: 5px; /* 아래 여백 설정 */
+  justify-content: center; /* 가로 방향으로 가운데 정렬 */
+  align-items: center; /* 수직 방향으로 가운데 정렬 */
+}
+
+/* 외부 차량 현황 영역 */
+.car-list {
+  margin-top: 20px; /* 위 여백 설정 */
+}
+
+/* 외부 차량 현황 제목 */
+.car-list h2 {
+  font-size: 18px; /* 글꼴 크기 설정 */
+  margin-bottom: 10px; /* 아래 여백 설정 */
+}
+
+/* 테이블 */
+table {
+  width: 100%; /* 너비 100% */
+  border-collapse: collapse; /* 테이블 테두리 병합 */
+}
+
+.table h10{
+  color: #FFFFFF;
+}
+
+/* 테이블 헤더 */
+th {
+  background-color: #525252; /* 배경색 설정 */
+  border: 1px solid #1b1b1b; /* 테두리 설정 */
+  padding: 5px; /* 여백 설정 */
+  text-align: center; /* 가운데 정렬 */
+}
+
+/* 테이블 내용 */
+td {
+  border: 1px solid #1b1b1b; /* 테두리 설정 */
+  padding: 5px; /* 여백 설정 */
+  text-align: center;} /* 가운데 정렬 */
+
+/* 컨테이너 안 주차 현황*/
+
+.parking-info img {
+  max-width: 100%;
+  height: auto;
+  transform: translate(100%); /* 위치 조정 */
+}
+
+/* 푸터 스타일 */
+footer {
+  margin-top: 100px;
+  background-color: #FFFFFF;
+  color: #1b1b1b;
+  padding: 10px 20px;
+  text-align: center;
+  border-top: 1px solid #ddd;
+}
+
+/* 인트로 섹션 스타일 */
+.intro2 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.intro2 h2 {
+  position: absolute; /* 절대 위치 지정 */
+  top: 50%; /* 상단 위치 설정 */
+  left: 45%; /* 왼쪽 위치 설정 */
+  transform: translate(0%, -20%); /* 위치 조정 */
+  font-size: 15px; /* 글꼴 크기 설정 */
+}

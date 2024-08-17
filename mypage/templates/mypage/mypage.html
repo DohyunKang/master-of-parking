@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한이음 빌라 마이페이지</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'mypage/css/mypage_style.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap2.min.css' %}">
+</head>
+<body>
+    <header>
+        {% load static %}
+        <h1>
+            <img src="{% static 'mypage/img/주차마크.png' %}" width="40" height="40"> 주차의 달인</h1>
+        <nav>
+            <h2>
+                <ul>
+                    <li><a href="{% url 'home:index' %}">홈</a></li>
+                    <li><a href="{% url 'parking_status:parking_status' %}">주차현황</a></li>
+                    <li><a href="{% url 'home:nearby_parking' %}">주변 주차장</a></li>
+                    <li><a href="{% url 'login:logout' %}">로그아웃</a></li>
+                </ul>
+            </h2>
+        </nav>
+    </header>
+    <main>
+        <section class="profile">
+            <div class="profile-header">
+                <div class="profile-picture">
+                    <img src="{% static 'mypage/img/프로필사진.png' %}" alt="프로필 사진">
+                </div>
+                <div><button class="edit-profile">프로필사진 수정</button></div>
+                <div class="profile-name">
+                    <h2>[ {{ user.nickname }} ]</h2>
+                    <label>이름 : {{ user.first_name }}{{ user.last_name }}</label>
+                    <label>차량 번호 : {{ user.car_number }}</label>
+                    <label>이메일 : {{ user.email }}</label>
+                </div>
+            </div>
+            <section class="update-details">
+                <h2>&nbsp;&nbsp;&nbsp;Update Details</h2>
+                <p>정보를 입력하여 수정하세요.</p>
+                <form method="post" action="{% url 'mypage:mypage' %}" id="update-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="button" id="save-changes" class="btn btn-primary">변경하기</button>
+                </form>
+            </section>
+        </section>
+    </main>
+    <footer>
+        <h4>
+            <p>&copy; 2024 한이음 빌라 &nbsp;&nbsp; &phone;&nbsp; 010-xxxx-xxxx &nbsp;&nbsp; email: admin@example.com </p>
+        </h4>
+    </footer>
+    {% block script %}
+        <script type='text/javascript'>
+            document.getElementById('save-changes').addEventListener('click', function() {
+                if (confirm("정말 바꾸시겠습니까?")) {
+                    document.getElementById('update-form').submit();
+                }
+            });
+            {% if messages %}
+                {% for message in messages %}
+                    alert("{{ message }}");
+                {% endfor %}
+            {% endif %}
+        </script>
+    {% endblock %}
+</body>
+</html>

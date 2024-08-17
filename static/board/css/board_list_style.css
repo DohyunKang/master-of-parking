@@ -1,0 +1,267 @@
+/* 전체 스타일 */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* 컨테이너 스타일 */
+.container {
+  background: #FFFFFF;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+/* 헤더 스타일 */
+header {
+  background-color: #FFFFFF;
+  color: #1b1b1b;
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+header h2 {
+  font-size: 15px;
+  margin: 0;
+}
+
+header h1 {
+  font-size: 55px;
+  margin: 0;
+}
+
+header h4 {
+  font-size: 15px;
+  margin: 0;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+nav ul li a {
+  color: #333333;
+  text-decoration: none;
+}
+
+/* 인트로 섹션 스타일 */
+.intro {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.intro h1 {
+  position: absolute;
+  top: 25%;
+  left: 20%;
+  transform: translate(-20%, 25%);
+  font-size: 65px;
+}
+
+.intro h2 {
+  position: absolute;
+  top: 40%;
+  left: 24%;
+  transform: translate(-20%, 80%);
+  font-size: 15px;
+}
+
+.intro img {
+  max-width: 100%;
+  height: auto;
+  transform: translate(50%);
+}
+
+/* 메인 컨텐츠 스타일 */
+main {
+  padding: 20px;
+  width: 100%;
+}
+
+/* 게시판 스타일 */
+.bulletin-board {
+  margin-bottom: 20px;
+}
+
+.bulletin-board h2 {
+  font-size: 20px;
+  text-align: center;
+}
+
+.bulletin-board ul {
+  border: 1px solid #ddd;
+  padding: 20px;
+  padding-left: 20px;
+  text-align: center;
+}
+
+.bulletin-board ul li {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.bulletin-board ul li a {
+  color: #333;
+  text-decoration: none;
+  text-align: center;
+}
+
+.bulletin-board ul li p {
+  color: #777777;
+  font-size: 14px;
+  margin: 5px 0;
+  text-align: center;
+}
+
+/* 새 글 작성 섹션 스타일 */
+.new-post {
+  margin-top: 20px;
+}
+
+.new-post h7 {
+  font-size: 20px;
+  text-align: center;
+}
+
+.new-post form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.new-post form div {
+  margin-bottom: 15px;
+}
+
+.new-post label {
+  display: block;
+  font-size: 14px;
+}
+
+.new-post input, .new-post textarea {
+  width: 100%;
+  max-width: 600px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.new-post button {
+  padding: 10px 20px;
+  background-color: #81d4fa;
+  border: none;
+  border-radius: 5px;
+  color: #1b1b1b;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.new-post button:hover {
+  background-color: #4fc3f7;
+}
+
+/* 푸터 스타일 */
+footer {
+  margin-top: 100px;
+  background-color: #FFFFFF;
+  color: #1b1b1b;
+  padding: 10px 30px;
+  text-align: center;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  border-top: 1px solid #ddd;
+}
+
+h11 {
+  font-size: 15px;
+}
+
+/* 테이블 */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+
+/* 테이블 헤더 */
+.table thead th {
+  background-color: #525252;
+  color: #fff;
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+  border-bottom: 2px solid #dee2e6;
+  text-align: center;
+}
+
+/* 테이블 바디 */
+.table tbody td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+  text-align: center;
+}
+
+/* 링크 스타일 */
+.table a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.table a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* 빈 데이터 행 스타일 */
+.table tbody tr td[colspan="3"] {
+  text-align: center;
+  color: #6c757d;
+  padding: 1rem;
+}
+
+/* 테이블 행 스타일 */
+.table tbody tr:nth-of-type(even) {
+  background-color: #f8f9fa;
+}
+
+/* 헤더와 바디의 셀 정렬 */
+.table tbody td:first-child,
+.table thead th:first-child {
+  text-align: center;
+  padding-left: 1rem;
+}
+
+/* 인트로 섹션 스타일 */
+.intro2 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.intro2 h2 {
+  position: absolute; /* 절대 위치 지정 */
+  top: 50%; /* 상단 위치 설정 */
+  left: 45%; /* 왼쪽 위치 설정 */
+  transform: translate(0%, -20%); /* 위치 조정 */
+  font-size: 15px; /* 글꼴 크기 설정 */
+}
