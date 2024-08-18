@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from parking.home import views
+# MEDIA_URL 및 MEDIA_ROOT 설정 추가
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,3 +38,6 @@ urlpatterns = [
     path('time_set/', include('timeset.urls')),
     path('', views.index, name='index'),  # '/' 에 해당되는 path
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

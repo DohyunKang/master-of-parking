@@ -45,9 +45,15 @@
         {% endif %}
         <!-- 질문 -->
         <h2 class="border-bottom py-2"> 제목 : {{ question.subject }} </h2>
-        <a href="{% url 'posts:index' %}"class="btn btn-sm btn-outline-secondary">게시글 목록</a>
-        <h4>[ 작성자 ] : {{ question.author.nickname }}
-          &nbsp;[ 차량번호 ] : {{ question.author.car_number }}</h4>
+        <a href="{% url 'posts:index' %}" class="btn btn-sm btn-outline-secondary">게시글 목록</a>
+        <h4>
+          {% if question.author.mypageprofile and question.author.mypageprofile.file %}
+           [ 작성자 ] :<img src="{{ question.author.mypageprofile.file.url }}" alt="프로필 사진" style="width: 30px; height: 30px; border-radius: 50%;"> {{ question.author.nickname }}
+          {% else %}
+              [ 작성자 ] : <img src="{% static 'mypage/img/프로필사진.png' %}" alt="기본 프로필 사진" style="width: 30px; height: 30px; border-radius: 50%;"> {{ question.author.nickname }}
+          {% endif %}
+          &nbsp;[ 차량번호 ] : {{ question.author.car_number }}
+        </h4>
         <div class="card my-3">
           <div class="card-body">
             <div class="card-text">{{ question.content|mark }}</div>
@@ -59,7 +65,11 @@
               </div>
               {% endif %}
               <div class="badge bg-light text-dark p-2 text-start">
-                <div class="mb-2">{{ question.author.nickname }}</div>
+                {% if question.author.mypageprofile and question.author.mypageprofile.file %}
+                    <div class="mb-2"> <img src="{{ question.author.mypageprofile.file.url }}" alt="프로필 사진" style="width: 30px; height: 30px; border-radius: 50%;"> {{ question.author.nickname }}</div>
+                  {% else %}
+                    <div class="mb-2"> <img src="{% static 'mypage/img/프로필사진.png' %}" alt="기본 프로필 사진" style="width: 30px; height: 30px; border-radius: 50%;"> {{ question.author.nickname }}</div>
+                  {% endif %}
                 <div class="mb-2">{{ question.author.car_number }}</div>
                 <div>{{ question.create_date }}</div>
               </div>
@@ -79,7 +89,7 @@
           </div>
         </div>
         <!-- 답변 -->
-        <h2 class="border-bottom my-3 py-2">{{answer_list.paginator.count}}개의 댓글이 있습니다.</h2>
+        <h2 class="border-bottom my-3 py-2">{{ answer_list.paginator.count }}개의 댓글이 있습니다.</h2>
         <div>
           {% for answer in answer_list %}
           <a id="answer_{{ answer.id }}"></a>
@@ -94,7 +104,11 @@
                 </div>
                 {% endif %}
                 <div class="badge bg-light text-dark p-2 text-start">
-                  <div class="mb-2">{{ answer.author.nickname }}</div>
+                  {% if answer.author.mypageprofile and answer.author.mypageprofile.file %}
+                    <div class="mb-2"> <img src="{{ answer.author.mypageprofile.file.url }}" alt="프로필 사진" style="width: 30px; height: 30px; border-radius: 50%;"> {{ answer.author.nickname }}</div>
+                  {% else %}
+                    <div class="mb-2"> <img src="{% static 'mypage/img/프로필사진.png' %}" alt="기본 프로필 사진" style="width: 30px; height: 30px; border-radius: 50%;"> {{ answer.author.nickname }}</div>
+                  {% endif %}
                   <div class="mb-2">{{ answer.author.car_number }}</div>
                   <div>{{ answer.create_date }}</div>
                 </div>
@@ -102,7 +116,7 @@
               <div class="my-3">
                 <a href="javascript:void(0)" data-uri="{% url 'posts:answer_vote' answer.id %}"
                    class="recommend btn btn-sm btn-outline-secondary">추천
-                  <span class="badge rounded-pill bg-success">{{answer.voter.count}}</span>
+                  <span class="badge rounded-pill bg-success">{{ answer.voter.count }}</span>
                 </a>
                 {% if request.user == answer.author %}
                 <a href="{% url 'posts:answer_modify' answer.id %}"
@@ -202,37 +216,6 @@
         <label for="content" class="form-label">[ 댓글 ]</label>
         <textarea name="content" id="content" class="form-control" rows="5"></textarea>
       </div>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;
       <input type="submit" value="댓글 작성" class="btn btn-primary">
     </form>
     {% endif %}

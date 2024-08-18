@@ -47,8 +47,8 @@
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="{% url 'board:board_all' %}" class="btn btn-sm btn-outline-secondary">게시판 목록</a>
     <div class="container">
       <section class="bulletin-board">
@@ -93,14 +93,21 @@
                   {% endif %}
                 </td>
                 <td>{{question.voter.count}}</td>
-                <td>{{ question.author.nickname }}</td>  <!-- 글쓴이 추가 -->
-                <td>{{ question.author.car_number }}</td>  <!-- 차량번호 추가 -->
+                <td class="text-start">
+                  {% if question.author.mypageprofile and question.author.mypageprofile.file %}
+                    <img src="{{ question.author.mypageprofile.file.url }}" alt="프로필 사진" style="width: 30px; height: 30px; border-radius: 50%;">
+                  {% else %}
+                    <img src="{% static 'mypage/img/프로필사진.png' %}" alt="기본 프로필 사진" style="width: 30px; height: 30px; border-radius: 50%;">
+                  {% endif %}
+                  {{ question.author.nickname }}
+                </td>
+                <td>{{ question.author.car_number }}</td>
                 <td>{{ question.create_date }}</td>
               </tr>
               {% endfor %}
               {% else %}
               <tr>
-                <td colspan="4">질문이 없습니다.</td>
+                <td colspan="6">질문이 없습니다.</td>
               </tr>
               {% endif %}
             </tbody>
