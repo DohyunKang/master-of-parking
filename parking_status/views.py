@@ -4,13 +4,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from .models import ParkingSpace, ParkingHistory
 import json
-from datetime import timedelta
-import datetime
+from datetime import timedelta, datetime  # 여기에 timedelta와 datetime을 각각 가져옴
 from collections import defaultdict
 from timeset.models import TimeSet  # TimeSet 모델 import
 from django.contrib.auth.models import User
-from django.core.files.uploadedfile import InMemoryUploadedFile
-import os
+from django.db.models import Avg, F
 
 def parking_status(request):
     # 주차 상태 데이터 가져오기
@@ -59,13 +57,32 @@ def calculate_average_times():
             average_duration = (total_duration / count).total_seconds()
 
             average_data[days_of_week[i]] = {
-                'average_entry_time': str(datetime.timedelta(seconds=average_entry_time)),
-                'average_exit_time': str(datetime.timedelta(seconds=average_exit_time)),
-                'average_duration': str(datetime.timedelta(seconds=average_duration))
+                'average_entry_time': str(timedelta(seconds=average_entry_time)),
+                'average_exit_time': str(timedelta(seconds=average_exit_time)),
+                'average_duration': str(timedelta(seconds=average_duration))
             }
 
     return average_data
 
+def calculate_estimated_exit_time(plate_text):
+    # 예시 알고리즘: 과거의 평균 주차 시간을 사용하여 예상 출차 시간을 계산
+    history = ParkingHistory.objects.filter(plate_text=plate_text).order_by('-entry_time').first()
+    if history:
+        average_duration = ParkingHistory.objects.filter(plate_text=plate_text).aggregate(avg_duration=Avg(F('exit_time') - F('entry_time')))['avg_duration']
+        if average_duration:
+            return history.entry_time + average_duration
+    return None
+
+def get_user_exit_time(plate_text):
+    try:
+        user = User.objects.get(car_number=plate_text)
+        current_weekday = timezone.now().strftime('%A')
+        timeset = TimeSet.objects.get(user=user, weekday=current_weekday)
+        return timeset.exit_time.strftime('%H:%M') if timeset.exit_time else '출차 시간 설정 안 됨'
+    except TimeSet.DoesNotExist:
+        return '출차 시간 설정 안 됨'
+    except User.DoesNotExist:
+        return '사용자 정보 없음'
 
 @csrf_exempt
 def update_parking_data(request):
@@ -135,14 +152,6 @@ def update_parking_data(request):
                             last_history.exit_time = current_time
                             last_history.save()
 
-        # Image processing if present
-        if 'image' in request.FILES:
-            image_file = request.FILES['image']
-            image_path = 'path/to/save/image.png'
-            with open(image_path, 'wb') as f:
-                f.write(image_file.read())
-            print(f"Image saved as {image_path}")
-
         return JsonResponse({"status": "success"})
 
     return HttpResponseNotAllowed(['POST'])
@@ -169,7 +178,6 @@ def update_parking_history():
             space.exit_time = None
             space.save()
 
-
 def get_parking_data(request):
     parking_data = list(ParkingSpace.objects.all().values().order_by('index'))  # 인덱스로 정렬
     history_data = list(ParkingHistory.objects.all().values())
@@ -182,6 +190,14 @@ def get_parking_data(request):
     for parking in parking_data:
         if parking['is_occupied']:
             today_entry_times.append(parking['entry_time'])
+
+            # 예상 출차 시간 계산
+            estimated_exit_time = calculate_estimated_exit_time(parking['plate_text'])
+            parking['estimated_exit_time'] = estimated_exit_time.strftime('%H:%M') if estimated_exit_time else "출차 시간 계산되지 않음"
+
+            # 출차 설정 시간 가져오기
+            user_exit_time = get_user_exit_time(parking['plate_text'])
+            parking['user_exit_time'] = user_exit_time if user_exit_time else '출차 시간 설정 안 됨'
 
     # 추천된 주차 공간 인덱스를 포함하여 반환
     recommended_space = None
@@ -245,4 +261,3 @@ def recommend_parking_space(plate_text):
         recommended_space = all_spaces.filter(is_occupied=False).first()
 
     return recommended_space
-

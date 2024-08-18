@@ -149,7 +149,8 @@
                         div.innerHTML = `
                     <div>
                         <h4>차량 번호: ${item.plate_text}</h4>
-                        <p>예상 출차 시간</p>
+                        <p>예상 출차 시간: ${item.estimated_exit_time || '출차 시간 계산되지 않음'}</p>
+                        <p>설정 출차 시간: ${item.user_exit_time || '출차 시간 설정 안 됨'}</p>
                     </div>
                 `;
                     }
@@ -167,10 +168,9 @@
             });
         }
 
-
-function isOutsider(plateText) {
-    return plateText && (plateText.includes('외부') || plateText.includes('방문객'));
-}
+        function isOutsider(plateText) {
+            return plateText && (plateText.includes('외부') || plateText.includes('방문객'));
+        }
 
         function updateSummary(data) {
             const summary = document.querySelector('.status-board');
@@ -194,10 +194,6 @@ function isOutsider(plateText) {
             } else {
                 realTimeImage.innerHTML = '실시간 주차장 사진을 불러올 수 없습니다.';
             }
-        }
-
-        function isOutsider(plateText) {
-            return plateText && (plateText.includes('외부') || plateText.includes('방문객'));
         }
 
         setInterval(fetchParkingData, 5000);  // 5초마다 데이터 갱신
@@ -238,11 +234,12 @@ function isOutsider(plateText) {
     <div class="container">
         <section class="parking-status">
             <div class="current-parking">
-                <h1>입구↓</h1>
+                <h2>< 내 차량 번호 : {{ user.car_number }} ></h2>
+                <h1>⇩⇧ 입구 ⇩⇧</h1>
                 <div class="parking-lot">
                     <!-- 주차 공간은 JS에서 동적으로 추가됨 -->
                 </div>
-                <h1>출입 불가<img src="{% static 'parking_status/img/금지.png' %}" width="80" height="80"></h1>
+                <h1><img src="{% static 'parking_status/img/금지.png' %}" width="80" height="80">출입 불가<img src="{% static 'parking_status/img/금지.png' %}" width="80" height="80"></h1>
             </div>
             <div class="status-board"></div>
             <div id="average-times" class="average-time"></div>
