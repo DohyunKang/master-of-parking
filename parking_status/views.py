@@ -4,11 +4,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from .models import ParkingSpace, ParkingHistory
 import json
-from datetime import timedelta, datetime  # 여기에 timedelta와 datetime을 각각 가져옴
+from datetime import timedelta, datetime  # timedelta와 datetime을 가져옴
 from collections import defaultdict
 from timeset.models import TimeSet  # TimeSet 모델 import
 from django.contrib.auth.models import User
 from django.db.models import Avg, F
+import os
+from django.conf import settings
 
 def parking_status(request):
     # 주차 상태 데이터 가져오기
@@ -84,6 +86,13 @@ def get_user_exit_time(plate_text):
     except User.DoesNotExist:
         return '사용자 정보 없음'
 
+def get_latest_image_url():
+    image_dir = os.path.join(settings.BASE_DIR, 'parking_status', 'img')
+    images = sorted(os.listdir(image_dir), key=lambda x: os.path.getctime(os.path.join(image_dir, x)), reverse=True)
+    if images:
+        return os.path.join('img', images[0])  # 가장 최근 이미지를 반환
+    return None
+
 @csrf_exempt
 def update_parking_data(request):
     if request.method == 'POST':
@@ -152,6 +161,18 @@ def update_parking_data(request):
                             last_history.exit_time = current_time
                             last_history.save()
 
+        # 이미지가 업로드된 경우, 이를 저장합니다.
+        if 'image' in request.FILES:
+            image_file = request.FILES['image']
+            image_dir = os.path.join(settings.BASE_DIR, 'parking_status', 'img')
+            os.makedirs(image_dir, exist_ok=True)
+            image_path = os.path.join(image_dir, f'image_{timezone.now().strftime("%Y%m%d_%H%M%S")}.png')
+
+            with open(image_path, 'wb') as f:
+                for chunk in image_file.chunks():
+                    f.write(chunk)
+            print(f"Image saved as {image_path}")
+
         return JsonResponse({"status": "success"})
 
     return HttpResponseNotAllowed(['POST'])
@@ -212,14 +233,17 @@ def get_parking_data(request):
     else:
         recommended_index = None
 
+    # 가장 최근 이미지의 URL 가져오기
+    image_url = get_latest_image_url()
+
     return JsonResponse({
         "parking": parking_data,
         "history": history_data,
         "average_times": average_times,
         "today_entry_times": today_entry_times,
-        "recommended_space_index": recommended_index
+        "recommended_space_index": recommended_index,
+        "image_url": image_url
     })
-
 
 def recommend_parking_space(plate_text):
     # 특정 차량의 과거 주차 패턴 분석

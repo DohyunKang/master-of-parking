@@ -190,7 +190,7 @@
         function updateRealTimeImage(imageUrl) {
             const realTimeImage = document.getElementById('real-time-image');
             if (imageUrl) {
-                realTimeImage.innerHTML = `<img src="${imageUrl}" alt="실시간 주차장 사진">`;
+                realTimeImage.innerHTML = `<img src="/parking_status/${imageUrl}" alt="실시간 주차장 사진">`;
             } else {
                 realTimeImage.innerHTML = '실시간 주차장 사진을 불러올 수 없습니다.';
             }
