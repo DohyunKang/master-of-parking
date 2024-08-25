@@ -5,15 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주차 현황</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap2.min.css' %}">
     <style>
+        .intro {
+            text-align: center; /* 텍스트를 가운데 정렬 */
+            margin-bottom: 30px; /* 아래쪽 여백 추가 */
+        }
+
         .parking-lot {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-gap: 10px;
             max-width: 800px;
-            margin: 20px auto;
+            margin: 20px auto; /* 가운데 정렬 */
         }
 
         .parking-space {
@@ -90,6 +98,22 @@
             height: auto;
             border: 2px solid black;
         }
+
+        .current-parking {
+            text-align: center;  /* 텍스트와 주차 공간을 가운데 정렬 */
+            margin-bottom: 20px;
+        }
+
+        .entry-exit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .entry-exit h3 {
+            margin: 0 20px;  /* 좌우 여백을 추가하여 텍스트와 이미지 사이를 띄움 */
+        }
     </style>
     <script>
         let initialized = false;
@@ -126,7 +150,6 @@
                 div.innerHTML = `<h4>빈 주차공간</h4>`;
                 parkingLot.appendChild(div);
             }
-            // 실시간 사진이 없을 때 메시지 표시
             updateRealTimeImage(null);
         }
 
@@ -135,24 +158,24 @@
             parkingLot.innerHTML = '';
             data.parking.forEach(item => {
                 const div = document.createElement('div');
+
                 if (item.is_occupied) {
-                    if (isOutsider(item.plate_text)) {
+                    if (item.plate_text === "외부차량") {
                         div.classList.add('parking-space', 'visitor');
                         div.innerHTML = `
-                    <div>
-                        <h4>외부차량</h4>
-                        <p>차량번호: ${item.plate_text}</p>
-                    </div>
-                `;
+                            <div>
+                                <h4>외부차량</h4>
+                            </div>
+                        `;
                     } else {
                         div.classList.add('parking-space', 'occupied');
                         div.innerHTML = `
-                    <div>
-                        <h4>차량 번호: ${item.plate_text}</h4>
-                        <p>예상 출차 시간: ${item.estimated_exit_time || '출차 시간 계산되지 않음'}</p>
-                        <p>설정 출차 시간: ${item.user_exit_time || '출차 시간 설정 안 됨'}</p>
-                    </div>
-                `;
+                            <div>
+                                <h4>차량 번호: ${item.plate_text}</h4>
+                                <p>예상 출차 시간: ${item.estimated_exit_time || '출차 시간 계산되지 않음'}</p>
+                                <p>설정 출차 시간: ${item.user_exit_time || '출차 시간 설정 안 됨'}</p>
+                            </div>
+                        `;
                     }
                 } else {
                     div.classList.add('parking-space', 'empty');
@@ -169,7 +192,7 @@
         }
 
         function isOutsider(plateText) {
-            return plateText && (plateText.includes('외부') || plateText.includes('방문객'));
+            return plateText && (plateText === "외부차량");
         }
 
         function updateSummary(data) {
@@ -200,61 +223,72 @@
     </script>
 </head>
 <body onload="fetchParkingData()">
-<header>
-    <h1><img src="{% static 'home/img/주차마크.png' %}" width="40" height="40"> 주차의 달인</h1>
-    <h2><nav>
-        <ul>
-            {% if user.is_authenticated %}
-            <li><a href="{% url 'home:index' %}">홈</a></li>
-            <li><a href="{% url 'home:nearby_parking' %}">주변 주차장</a></li>
-            <li><a href="{% url 'mypage:mypage' %}">{{ user.username }}의 마이페이지</a></li>
-            <li><a href="{% url 'login:logout' %}">로그아웃</a></li>
-            {% endif %}
-            {% if not user.is_authenticated %}
-            <li><a href="{% url 'home:index' %}">홈</a></li>
-            <li><a href="{% url 'login:login' %}">로그인</a></li>
-            <li><a href="{% url 'find:find' %}">아이디/비밀번호 찾기</a></li>
-            <li>{% if not user.is_authenticated %}<a href="{% url 'signup:signup' %}">회원가입</a>{% endif %}</li>
-            {% endif %}
-        </ul>
-    </nav></h2>
-</header>
-<main>
-    <div>&nbsp;</div>
-    <div>
-        <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <img src="{% static 'home/img/이용현황1.png' %}" width="80" height="80">
-            &nbsp;한이음 빌라 주차 현황</h1>
-    </div>
-    <div class="container">
-        <section class="parking-status">
-            <div class="current-parking">
-                <h2>< 내 차량 번호 : {{ user.car_number }} ></h2>
-                <h1>⇩⇧ 입구 ⇩⇧</h1>
-                <div class="parking-lot">
-                    <!-- 주차 공간은 JS에서 동적으로 추가됨 -->
+    <!-- 배경 비디오 추가 -->
+    <video class="video-background" autoplay muted loop>
+        <source src="{% static 'home/video/background.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- 헤더 섹션 -->
+    <header>
+        <div class="header-content">
+            <a href="{% url 'home:index' %}">
+                <img src="{% static 'home/img/주차아이콘.png' %}" width="60" height="60" alt="홈으로 이동">
+            </a>
+            <h1>주차의 달인</h1>
+            <div class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">
+                &#9776;
+            </div>
+        </div>
+        <nav class="nav-menu" id="nav-menu">
+            <ul>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'home:index' %}">홈</a></li>
+                    <li><a href="{% url 'home:nearby_parking' %}">주변 주차장</a></li>
+                    <li><a href="{% url 'mypage:mypage' %}">{{ user.username }}의 마이페이지</a></li>
+                    <li><a href="{% url 'login:logout' %}">로그아웃</a></li>
+                {% else %}
+                    <li><a href="{% url 'home:index' %}">홈</a></li>
+                    <li><a href="{% url 'login:login' %}">로그인</a></li>
+                    <li><a href="{% url 'find:find' %}">아이디/비밀번호 찾기</a></li>
+                    <li><a href="{% url 'signup:signup' %}">회원가입</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 메인 콘텐츠 -->
+    <main>
+        <div class="intro">
+                <h1>한이음 빌라 주차 현황</h1>
+            </div>
+
+        <section class="container">
+            <section class="parking-status">
+                <div class="current-parking">
+                    <h2>[ 내 차량 번호: {{ user.car_number }} ]</h2>
+                    <h3>⇩⇧ 입구 ⇩⇧</h3>
+                    <div class="parking-lot">
+                        <!-- 주차 공간은 JS에서 동적으로 추가됨 -->
+                    </div>
+                    <h3><img src="{% static 'parking_status/img/금지.png' %}" width="80" height="80" alt="출입 불가"> 출입 불가 <img src="{% static 'parking_status/img/금지.png' %}" width="80" height="80" alt="출입 불가"></h3>
                 </div>
-                <h1><img src="{% static 'parking_status/img/금지.png' %}" width="80" height="80">출입 불가<img src="{% static 'parking_status/img/금지.png' %}" width="80" height="80"></h1>
-            </div>
-            <div class="status-board"></div>
-            <div id="average-times" class="average-time"></div>
-            <div id="today-entry-times" class="average-time"></div>
-            <div id="real-time-image" class="real-time-image">
-                <h2>실시간 주차장 사진</h2>
-                <!-- 실시간 주차장 사진이 여기에 표시됨 -->
-            </div>
+                <div class="status-board"></div>
+                <div id="average-times" class="average-time"></div>
+                <div id="today-entry-times" class="average-time"></div>
+                <div id="real-time-image" class="real-time-image">
+                    <h2>실시간 주차장 사진</h2>
+                    <!-- 실시간 주차장 사진이 여기에 표시됨 -->
+                </div>
+            </section>
         </section>
-    </div>
-</main>
-<footer>
-    <h4>
-        <p>&copy; 2024 한이음 빌라 &nbsp;&nbsp; &phone;&nbsp; 010-xxxx-xxxx &nbsp;&nbsp; email: admin@example.com </p>
-    </h4>
-</footer>
+    </main>
+
+    <!-- 푸터 -->
+    <footer>
+        <p>&copy; 2024 한이음 빌라 | 전화: 010-xxxx-xxxx | 이메일: admin@example.com</p>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

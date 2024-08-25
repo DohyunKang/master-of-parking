@@ -5,184 +5,132 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>출차 시간 설정</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'timeset/css/timeset_style.css' %}">
-    <link rel="stylesheet" href="{% static 'bootstrap2.min.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
+<!-- 배경 비디오 추가 -->
+<video class="video-background" autoplay muted loop>
+    <source src="{% static 'home/video/background.mp4' %}" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<!-- 헤더 섹션 -->
 <header>
-    <h1><img src="{% static 'home/img/주차마크.png' %}" width="40" height="40"> 주차의 달인</h1>
-    <nav><h2>
+    <div class="header-content">
+        <a href="{% url 'home:index' %}">
+            <img src="{% static 'home/img/주차아이콘.png' %}" width="60" height="60" alt="홈으로 이동">
+        </a>
+        <h1>주차의 달인</h1>
+        <div class="menu-toggle" id="menu-toggle">
+            &#9776;
+        </div>
+    </div>
+    <nav class="nav-menu" id="nav-menu">
         <ul>
             {% if user.is_authenticated %}
-            <li><a href="{% url 'home:index' %}">홈</a></li>
-            <li><a href="{% url 'home:nearby_parking' %}">주변 주차장</a></li>
-            <li><a href="{% url 'mypage:mypage' %}">{{ user.username }}의 마이페이지</a></li>
-            <li><a href="{% url 'login:logout' %}">로그아웃</a></li>
-            {% endif %}
-            {% if not user.is_authenticated %}
-            <li><a href="{% url 'home:index' %}">홈</a></li>
-            <li><a href="{% url 'login:login' %}">로그인</a></li>
-            <li><a href="{% url 'find:find' %}">아이디/비밀번호 찾기</a></li>
-            <li>{% if not user.is_authenticated %}<a href="{% url 'signup:signup' %}">회원가입</a>{% endif %}</li>
+                <li><a href="{% url 'home:index' %}">홈</a></li>
+                <li><a href="{% url 'home:nearby_parking' %}">주변 주차장</a></li>
+                <li><a href="{% url 'mypage:mypage' %}">{{ user.username }}의 마이페이지</a></li>
+                <li><a href="{% url 'login:logout' %}">로그아웃</a></li>
+            {% else %}
+                <li><a href="{% url 'home:index' %}">홈</a></li>
+                <li><a href="{% url 'login:login' %}">로그인</a></li>
+                <li><a href="{% url 'find:find' %}">아이디/비밀번호 찾기</a></li>
+                <li><a href="{% url 'signup:signup' %}">회원가입</a></li>
             {% endif %}
         </ul>
-    </h2>
     </nav>
 </header>
+
+<!-- 메인 콘텐츠 -->
 <main>
-    <div class="container">
+    <section class="container">
         <form method="post" action="{% url 'time_set:set_time' %}">
             {% csrf_token %}
-            <div class="container">
-                <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <img src="{% static 'home/img/출차시간1.png' %}" width="80" height="80">
-                    &nbsp;출차 시간 설정
-                </h1>
-            </div>
-            <div class="container"></div>
-            {% if form.non_field_errors %}
-            <div class="alert alert-danger">
-                {{ form.non_field_errors }}
-            </div>
-            {% endif %}
-            <div class="form-group">
-                <label for="weekday">요일</label>
-                <select id="weekday" name="weekday" class="form-control">
-                    <option value="Monday">월요일</option>
-                    <option value="Tuesday">화요일</option>
-                    <option value="Wednesday">수요일</option>
-                    <option value="Thursday">목요일</option>
-                    <option value="Friday">금요일</option>
-                    <option value="Saturday">토요일</option>
-                    <option value="Sunday">일요일</option>
-                </select>
-            </div>
-            <div class="container">&nbsp;</div>
-            <div class="form-group">
-                <label for="entry_time">입차 시간</label>
-                <input type="time" id="entry_time" name="entry_time" class="form-control">
-            </div>
-            <div class="container">&nbsp;</div>
-            <div class="form-group">
-                <label for="exit_time">출차 시간</label>
-                <input type="time" id="exit_time" name="exit_time" class="form-control">
-            </div>
-            <div class="container">&nbsp;</div>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;
-            <button type="submit" class="btn btn-primary">설정 저장</button>
+            <section class="intro">
+                <h1>출차 시간 설정</h1>
+            </section>
+            <section class="parking-status">
+                <div class="container"></div>
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger"
+                         style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px;">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                <div class="form-group" style="margin: 20px 0;">
+                    <label for="weekday" style="font-weight: bold; color: #333;">요일</label>
+                    <select id="weekday" name="weekday"
+                            style="padding: 10px; width: 99.5%; border-radius: 5px; border: 1px solid #ccc;">
+                        <option value="Monday">월요일</option>
+                        <option value="Tuesday">화요일</option>
+                        <option value="Wednesday">수요일</option>
+                        <option value="Thursday">목요일</option>
+                        <option value="Friday">금요일</option>
+                        <option value="Saturday">토요일</option>
+                        <option value="Sunday">일요일</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin: 20px 0;">
+                    <label for="entry_time" style="font-weight: bold; color: #333;">입차 시간</label>
+                    <input type="time" id="entry_time" name="entry_time"
+                           style="padding: 10px; width: 97%; border-radius: 5px; border: 1px solid #ccc;">
+                </div>
+                <div class="form-group" style="margin: 20px 0;">
+                    <label for="exit_time" style="font-weight: bold; color: #333;">출차 시간</label>
+                    <input type="time" id="exit_time" name="exit_time"
+                           style="padding: 10px; width: 97%; border-radius: 5px; border: 1px solid #ccc;">
+                </div>
+                <div style="text-align: left; margin-top: 20px;">
+                    <button type="submit"
+                            style="background-color: #000; color: white; padding: 10px 20px; border: none; border-radius: 5px;">
+                        설정 저장
+                    </button>
+                </div>
         </form>
-    </div>
+        </div>
 
-    <div class="container mt-5">
-        <h2>[ "차량 번호 : {{ user.car_number }}" 의 설정된 출차 시간 ]</h2>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>요일</th>
-                <th>입차 시간</th>
-                <th>출차 시간</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for time in times %}
-            <tr>
-                <td>{{ time.get_weekday_display }}</td>
-                <td>{{ time.entry_time }}</td>
-                <td>{{ time.exit_time }}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="{% url 'time_set:reset_times' %}" class="btn btn-danger">설정 초기화</a>
-    </div>
+        <div class="container mt-5">
+            <h2 style="text-align: center; font-family: 'Noto Sans KR', sans-serif; color: #333;">[ "차량 번호
+                : {{ user.car_number }}" 의 설정된 출차 시간 ]</h2>
+            <table class="table"
+                   style="width: 100%; border-collapse: collapse; margin: 20px 0; background-color: white; border-radius: 10px; overflow: hidden;">
+                <thead>
+                <tr>
+                    <th style="border: 1px solid #ccc; padding: 10px; background-color: #f1f1f1;">요일</th>
+                    <th style="border: 1px solid #ccc; padding: 10px; background-color: #f1f1f1;">입차 시간</th>
+                    <th style="border: 1px solid #ccc; padding: 10px; background-color: #f1f1f1;">출차 시간</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for time in times %}
+                    <tr>
+                        <td style="border: 1px solid #ccc; padding: 10px;">{{ time.get_weekday_display }}</td>
+                        <td style="border: 1px solid #ccc; padding: 10px;">{{ time.entry_time }}</td>
+                        <td style="border: 1px solid #ccc; padding: 10px;">{{ time.exit_time }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div style="text-align: left; margin-top: 20px;">
+                <form method="get" action="{% url 'time_set:reset_times' %}" style="display: inline;">
+                    <button type="submit"
+                            style="background-color: #f00; color: white; padding: 10px 20px; border: none; border-radius: 5px;">
+                        설정 초기화
+                    </button>
+                </form>
+            </div>
+        </div>
 </main>
+
+<!-- 푸터 -->
 <footer>
-    <h2>
-        <p>&copy; 2024 한이음 빌라 &nbsp;&nbsp; &phone;&nbsp; 010-xxxx-xxxx &nbsp;&nbsp; email: admin@example.com </p>
-    </h2>
+    <p>&copy; 2024 한이음 빌라 | 전화: 010-xxxx-xxxx | 이메일: admin@example.com</p>
 </footer>
+
+<script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

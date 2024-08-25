@@ -5,83 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'signup/css/signup_style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'bootstrap2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
+    <!-- 배경 비디오 추가 -->
+    <video class="video-background" autoplay muted loop>
+        <source src="{% static 'home/video/background.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- 헤더 섹션 -->
     <header>
-        <h1><img src="{% static 'signup/img/주차마크.png' %}" width="40" height="40"> 주차의 달인</h1>
-        <nav>
-            <h2>
-                <ul>
-                    <li><a href="{% url 'home:before_index' %}">Home</a></li>
-                    <li><a href="{% url 'login:login' %}">로그인</a></li>
-                    <li><a href="{% url 'find:find' %}">아이디/비밀번호 찾기</a></li>
-                </ul>
-            </h2>
+        <div class="header-content">
+            <a href="{% url 'home:before_index' %}">
+                <img src="{% static 'home/img/주차아이콘.png' %}" width="60" height="60" alt="홈으로 이동">
+            </a>
+            <h1>주차의 달인</h1>
+            <div class="menu-toggle" id="menu-toggle">
+                &#9776;
+            </div>
+        </div>
+        <nav class="nav-menu" id="nav-menu">
+            <ul>
+                <li><a href="{% url 'home:before_index' %}">홈</a></li>
+                <li><a href="{% url 'login:login' %}">로그인</a></li>
+                <li><a href="{% url 'find:find' %}">아이디/비밀번호 찾기</a></li>
+                {% if not user.is_authenticated %}
+                    <li><a href="{% url 'signup:signup' %}">회원가입</a></li>
+                {% endif %}
+            </ul>
         </nav>
     </header>
+
+    <!-- 메인 콘텐츠 -->
     <main>
-        <section class="signup-details">
-            <div class="signup-container">
-                <div class="form-container">
-                    <h2>회원가입</h2>
-                    <form method="post" action="{% url 'signup:signup' %}">
-                        {% csrf_token %}
-                        {% include "form_errors.html" %}
-                        <div class="form-group">
-                            <label for="first_name">성</label>
-                            <input type="text" class="form-control" id="first_name" name="first_name"
-                                   value="{{ form.first_name.value|default_if_none:'' }}" placeholder="Fill in your first name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="last_name">이름</label>
-                            <input type="text" class="form-control" id="last_name" name="last_name"
-                                   value="{{ form.last_name.value|default_if_none:'' }}" placeholder="Fill in your last name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="car_number">차량번호</label>
-                            <input type="text" class="form-control" id="car_number" name="car_number"
-                                   value="{{ form.car_number.value|default_if_none:'' }}" placeholder="Fill in your car number" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="nickname">닉네임</label>
-                            <input type="text" class="form-control" id="nickname" name="nickname"
-                                   value="{{ form.nickname.value|default_if_none:'' }}" placeholder="Fill in your nickname" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="username">아이디</label>
-                            <input type="text" class="form-control" name="username" id="username"
-                                   value="{{ form.username.value|default_if_none:'' }}" placeholder="Create a id" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password1">비밀번호</label>
-                            <input type="password" class="form-control" name="password1" id="password1"
-                                   value="{{ form.password1.value|default_if_none:'' }}" placeholder="Create a password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password2">비밀번호</label>
-                            <input type="password" class="form-control" name="password2" id="password2"
-                                   value="{{ form.password2.value|default_if_none:'' }}" placeholder="Check your password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">이메일</label>
-                            <input type="email" class="form-control" name="email" id="email"
-                                   value="{{ form.email.value|default_if_none:'' }}" placeholder="Enter your email address" required>
-                        </div>
-                        <div class="form-actions">
-                            <button type="button" class="cancel-btn"><a href="{% url 'signup:signup' %}">Cancel</a></button>
-                            <button type="submit" class="btn btn-primary">Register</button>
-                        </div>
-                    </form>
-                </div>
+        <section class="signup-details" style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+            <div class="signup-container" style="background-color: rgba(255, 255, 255, 0.8); padding: 30px; border-radius: 10px; width: 350px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <h2 style="text-align: center; font-family: 'Noto Sans KR', sans-serif;">회원가입</h2>
+                <form method="post" action="{% url 'signup:signup' %}" style="display: flex; flex-direction: column; gap: 15px;">
+                    {% csrf_token %}
+                    {% include "form_errors.html" %}
+                    <div class="form-group">
+                        <label for="first_name" style="font-weight: bold;">성</label>
+                        <input type="text" id="first_name" name="first_name" style="padding: 10px; width: 100%; border-radius: 5px; border: 1px solid #ccc;" placeholder="성" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name" style="font-weight: bold;">이름</label>
+                        <input type="text" id="last_name" name="last_name" style="padding: 10px; width: 100%; border-radius: 5px; border: 1px solid #ccc;" placeholder="이름" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="car_number" style="font-weight: bold;">차량번호</label>
+                        <input type="text" id="car_number" name="car_number" style="padding: 10px; width: 100%; border-radius: 5px; border: 1px solid #ccc;" placeholder="차량번호" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nickname" style="font-weight: bold;">닉네임</label>
+                        <input type="text" id="nickname" name="nickname" style="padding: 10px; width: 100%; border-radius: 5px; border: 1px solid #ccc;" placeholder="닉네임" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="username" style="font-weight: bold;">아이디</label>
+                        <input type="text" id="username" name="username" style="padding: 10px; width: 100%; border-radius: 5px; border: 1px solid #ccc;" placeholder="아이디" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password1" style="font-weight: bold;">비밀번호</label>
+                        <input type="password" id="password1" name="password1" style="padding: 10px; width: 100%; border-radius: 5px; border: 1px solid #ccc;" placeholder="비밀번호" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password2" style="font-weight: bold;">비밀번호 확인</label>
+                        <input type="password" id="password2" name="password2" style="padding: 10px; width: 100%; border-radius: 5px; border: 1px solid #ccc;" placeholder="비밀번호 확인" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" style="font-weight: bold;">이메일</label>
+                        <input type="email" id="email" name="email" style="padding: 10px; width: 100%; border-radius: 5px; border: 1px solid #ccc;" placeholder="이메일" required>
+                    </div>
+                    <div class="form-actions" style="display: flex; justify-content: space-between; align-items: center;">
+                        <button type="button" style="background-color: #f0f0f0; padding: 10px 20px; border: none; border-radius: 5px;"><a href="{% url 'signup:signup' %}" style="text-decoration: none; color: #333;">취소</a></button>
+                        <button type="submit" style="background-color: #000; color: white; padding: 10px 20px; border: none; border-radius: 5px;">가입하기</button>
+                    </div>
+                </form>
             </div>
         </section>
     </main>
+
+    <!-- 푸터 -->
     <footer>
-        <h4>
-            <p>&copy; 2024 한이음 빌라 &nbsp;&nbsp; &phone;&nbsp; 010-xxxx-xxxx &nbsp;&nbsp; email: admin@example.com</p>
-        </h4>
+        <p>&copy; 2024 한이음 빌라 | 전화: 010-xxxx-xxxx | 이메일: admin@example.com</p>
     </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

@@ -38,7 +38,7 @@ SECRET_KEY = 'django-insecure-reo*#xa*6()9xywdw467+j+$z*9o1^i=7+(+bwc7g-_sojj1c2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []#['master-of-parking-aqgyggafbve4ecg6.koreasouth-01.azurewebsites.net']
+ALLOWED_HOSTS = [] #['master-of-parking-aqgyggafbve4ecg6.koreasouth-01.azurewebsites.net']
 
 
 # Application definition

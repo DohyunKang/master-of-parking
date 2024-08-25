@@ -3,95 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>게시글 작성</title>
+  <title>댓글 수정</title>
   {% load static %}
   <link rel="stylesheet" href="{% static 'bootstrap2.min.css' %}">
-  <link rel="stylesheet" href="{% static 'posts/css/create_posts_style.css' %}">
+  <link rel="stylesheet" href="{% static 'posts/css/styles.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- 배경 비디오 추가 -->
+  <video class="video-background" autoplay muted loop>
+    <source src="{% static 'home/video/background.mp4' %}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- 헤더 섹션 -->
   <header>
-    <h1><img src="{% static 'posts/img/주차마크.png' %}" width="40" height="40"> 주차의 달인</h1>
-    <nav>
-      <h2>
+    <div class="header-content">
+      <a href="{% url 'home:index' %}">
+        <img src="{% static 'posts/img/주차아이콘.png' %}" width="60" height="60" alt="홈으로 이동">
+      </a>
+      <h1>주차의 달인</h1>
+      <div class="menu-toggle" id="menu-toggle">
+        &#9776;
+      </div>
+    </div>
+    <nav class="nav-menu" id="nav-menu">
       <ul>
         <li><a href="{% url 'home:index' %}">홈</a></li>
         <li><a href="{% url 'home:nearby_parking' %}">주변 주차장</a></li>
-        <li><a href="{% url 'mypage:mypage' %}">{{ user.username }}의 마이페이지</a></li>
         {% if user.is_authenticated %}
+        <li><a href="{% url 'mypage:mypage' %}">{{ user.username }}의 마이페이지</a></li>
         <li><a href="{% url 'login:logout' %}">로그아웃</a></li>
-        {% endif %}
-        {% if not user.is_authenticated %}
+        {% else %}
         <li><a href="{% url 'login:login' %}">로그인</a></li>
         {% endif %}
       </ul>
-    </nav></h2>
+    </nav>
   </header>
+
+  <!-- 메인 콘텐츠 -->
   <main>
     {% if user.is_authenticated %}
     <section class="intro">
+      <h1>댓글 수정</h1>
     </section>
+    <div class="container">
       <section class="new-post">
-        <h3 class="my-3 border-bottom pb-2">[ 댓글 수정 ] </h3>
-         <a href="{% url 'posts2:index' %}"class="btn btn-sm btn-outline-secondary">게시판 목록</a>
+        <h3 class="my-3 border-bottom pb-2">[ 댓글 수정 ]</h3>
+        <a href="{% url 'posts2:index' %}" class="return-btn">게시판 목록</a>
       </section>
-      <div class="container my-3">
-    <form method="post">
+      <form method="post" class="centered-form">
         {% csrf_token %}
+        <!-- 오류표시 Start -->
         {% include "form_errors.html" %}
+        <!-- 오류표시 End -->
         <div class="mb-3">
             <label for="content" class="form-label">댓글내용</label>
-            <textarea class="form-control" name="content" id="content"
-                      rows="10">{{ form.content.value|default_if_none:'' }}</textarea>
+            <textarea class="form-control" name="content" id="content" rows="10">{{ form.content.value|default_if_none:'' }}</textarea>
         </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="submit" class="btn btn-primary">수정하기</button>
-    </form>
-      </div>
-        <!-- 오류표시 End -->
-    </form>
-    {% endif %}
-    {% if not user.is_authenticated %}
-      <section class="intro2">
-       <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           &nbsp;
-           로그인 후 이용 바랍니다.</h3>
+        <div class="form-button-right">
+          <button type="submit" class="btn btn-primary">수정하기</button>
+        </div>
+      </form>
+    </div>
+    {% else %}
+    <section class="intro2">
+      <h3>로그인 후 이용 바랍니다.</h3>
     </section>
-      {% endif %}
+    {% endif %}
   </main>
+
+  <!-- 푸터 -->
   <footer>
-    <h4>
-      <p>&copy; 2024 한이음 빌라 &nbsp;&nbsp; &phone;&nbsp; 010-xxxx-xxxx &nbsp;&nbsp; email: admin@example.com </p>
-    </h4>
+    <p>&copy; 2024 한이음 빌라 | 전화: 010-xxxx-xxxx | 이메일: admin@example.com</p>
   </footer>
+
+  <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

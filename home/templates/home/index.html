@@ -1,81 +1,99 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>한이음 빌라 주차장 이용 안내</title>
-   {% load static %}
-  <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
-  <link rel="stylesheet" href="{% static 'bootstrap2.min.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한이음 빌라 주차장 이용 안내</title>
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+
 <body>
-  <header>
-    <h1><img src="{% static 'home/img/주차마크.png' %}" width="40" height="40"> 주차의 달인</h1>
-    <h1></h1>
-    <h2><nav>
-      <ul>
-        {% if user.is_authenticated %}
-        <li><a href="{% url 'home:index' %}">홈</a></li>
-        <li><a href="{% url 'home:nearby_parking' %}">주변 주차장</a></li>
-        <li><a href="{% url 'mypage:mypage' %}">{{ user.username }}의 마이페이지</a></li>
-        <li><a href="{% url 'login:logout' %}">로그아웃</a></li>
-        {% endif %}
-        {% if not user.is_authenticated %}
-        <li><a href="{% url 'home:index' %}">홈</a></li>
-        <li><a href="{% url 'login:login' %}">로그인</a></li>
-        <li><a href="{% url 'find:find' %}">아이디/비밀번호 찾기</a></li>
-        <li>{% if not user.is_authenticated %}<a href="{% url 'signup:signup' %}">회원가입</a>{% endif %}</li>
-        {% endif %}
-      </ul>
-    </nav></h2>
-  </header>
-  <main>
-    <section class="intro">
-      {% if user.is_authenticated %}
-       <h1>한이음 빌라</h1>
-      <h2>주차장 이용 현황 및 정보</h2>
-      <img src="{% static 'home/img/주차장사진.png' %}" width="600" height="600" alt="주차장 이미지">
-    </section>
-    <div class="container">
-    <section class="parking-status">
-      <h2>[ 주차장 이용 안내 ]</h2>
-      <div class="current-parking">
-        <h3><nav>
-      <ul>
-        <li><nav><a href="{% url 'parking_status:parking_status' %}"><img src="{% static 'home/img/이용현황1.png' %}" width="80" height="80">
-          &nbsp;&nbsp;이용 현황 : 현재 주차장 이용 현황을 확인해보세요. 자리가 부족할 경우 대체 주차장을 이용해보세요.</a></li></nav>
-      </ul>
-    </nav></h3>
-      </div>
-      <div class="expected-departure">
-        <h3><nav>
-      <ul>
-        <li><nav><a href="{% url 'time_set:set_time' %}"><img src="{% static 'home/img/출차시간1.png' %}" width="80" height="80">
-          &nbsp;&nbsp;출차 시간 설정 : 주차 종료 시간을 고려하여 예상 출차 시간을 설정하세요.</a></li></nav>
-      </ul>
-    </nav></h3>
-      </div>
-    </section>
-    <section class="bulletin-board">
-      <h3><nav>
-      <ul>
-        <li><nav><a href="{% url 'board:board_all' %}"> <img src="{% static 'home/img/게시판1.png' %}" width="80" height="80">
-          &nbsp;&nbsp;게시판 : 불편사항 및 건의사항 등 게시판에 게시글을 작성하고 댓글로 소통을 할 수 있습니다.</a></li></nav>
-      </ul>
-    </nav></h3>
-    </section>
-      {% endif %}
-      {% if not user.is_authenticated %}
-      <section class="intro2">
-       <h2>&nbsp;&nbsp;&nbsp;&nbsp;로그인 후 이용 바랍니다.</h2>
-    </section>
-      {% endif %}
+<video class="video-background" autoplay muted loop>
+    <source src="{% static 'home/video/background.mp4' %}" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+<header>
+    <div class="header-content">
+        <a href="{% url 'home:index' %}">
+            <img src="{% static 'home/img/주차아이콘.png' %}" width="60" height="60" alt="홈으로 이동">
+        </a>
+        <h1>주차의 달인</h1>
+        <div class="menu-toggle" id="menu-toggle">
+            &#9776;
+        </div>
     </div>
-  </main>
-    <footer>
-    <h4>
-      <p>&copy; 2024 한이음 빌라 &nbsp;&nbsp; &phone;&nbsp; 010-xxxx-xxxx &nbsp;&nbsp; email: admin@example.com </p>
-    </h4>
-  </footer>
-  </body>
+    <nav class="nav-menu" id="nav-menu">
+        <ul>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'home:index' %}">홈</a></li>
+                <li><a href="{% url 'home:nearby_parking' %}">주변 주차장</a></li>
+                <li><a href="{% url 'mypage:mypage' %}">{{ user.username }}의 마이페이지</a></li>
+                <li><a href="{% url 'login:logout' %}">로그아웃</a></li>
+            {% else %}
+                <li><a href="{% url 'home:index' %}">홈</a></li>
+                <li><a href="{% url 'login:login' %}">로그인</a></li>
+                <li><a href="{% url 'find:find' %}">아이디/비밀번호 찾기</a></li>
+                <li><a href="{% url 'signup:signup' %}">회원가입</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+
+<main>
+    {% if user.is_authenticated %}
+        <section class="intro">
+                <h1>한이음 빌라</h1>
+                <img src="{% static 'home/img/주차장사진.png' %}" alt="주차장 이미지">
+        </section>
+
+        <div class="container">
+            <section class="parking-status">
+                <h2>이용 현황</h2>
+                <div class="content-box">
+                    <a href="{% url 'parking_status:parking_status' %}">
+                        <img src="{% static 'home/img/이용현황1.png' %}" width="80" height="80">
+                        <p>현재 주차장 이용 현황을 확인해보세요.<br>자리가 부족할 경우 대체 주차장을 이용해보세요.</p>
+                    </a>
+                </div>
+            </section>
+
+            <section class="expected-departure">
+                <h2>출차 시간 설정</h2>
+                <div class="content-box">
+                    <a href="{% url 'time_set:set_time' %}">
+                        <img src="{% static 'home/img/출차시간1.png' %}" width="80" height="80">
+                        <p>주차 종료 시간을 고려하여 예상 출차 시간을 설정하세요.</p>
+                    </a>
+                </div>
+            </section>
+
+            <section class="bulletin-board">
+                <h2>게시판</h2>
+                <div class="content-box">
+                    <a href="{% url 'board:board_all' %}">
+                        <img src="{% static 'home/img/게시판1.png' %}" width="80" height="80">
+                        <p>불편사항 및 건의사항 등 게시판에 게시글을 작성하고 댓글로 소통할 수 있습니다.</p>
+                    </a>
+                </div>
+            </section>
+        </div>
+    {% else %}
+        <section class="intro">
+            <h3>로그인 후 이용 바랍니다.</h3>
+        </section>
+    {% endif %}
+</main>
+
+<footer>
+    <p>&copy; 2024 한이음 빌라 | 전화: 010-xxxx-xxxx | 이메일: admin@example.com</p>
+</footer>
+
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+
 </html>
