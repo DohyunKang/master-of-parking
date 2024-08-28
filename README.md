@@ -8,6 +8,8 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 
 ## image
 ### web
+![한이음 주차 로그인 전](https://github.com/user-attachments/assets/2c90aef3-29ac-4dc2-bb35-88d9ad5cee91)
+![한이음 주차 로그인 웹](https://github.com/user-attachments/assets/44b787f6-b5d5-4a5c-8519-62d8bfa0ab2e)
 ![스크린샷 2024-08-25 214305](https://github.com/user-attachments/assets/384c455a-c573-4ff1-a2e2-df5a9f1d74af)
 ![스크린샷 2024-08-25 214347](https://github.com/user-attachments/assets/bf471dae-5693-4cb0-ba3b-855f181b1fc5)
 ![스크린샷 2024-08-25 214459](https://github.com/user-attachments/assets/ce1c4bd8-22b2-4140-b478-85c2babd9616)
@@ -31,6 +33,7 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 ### mobile
 ![스크린샷 2024-08-25 215338](https://github.com/user-attachments/assets/6b2ea412-265b-4e1b-ae1b-9b386b9faef6)
 !![스크린샷 2024-08-25 215404](https://github.com/user-attachments/assets/91eaf6ec-79ce-415d-baed-f009f522c4a3)
+![한이음 주차 모바일 로그인](https://github.com/user-attachments/assets/ebb45391-e2c5-45f9-900c-7d983ff340fa)
 ![스크린샷 2024-08-25 215426](https://github.com/user-attachments/assets/d8c2b4da-17e9-48f7-85e9-5a3e2cc4323a)
 ![스크린샷 2024-08-25 215436](https://github.com/user-attachments/assets/cf9635b4-6e78-4590-997f-135dd96c4a48)
 ![스크린샷 2024-08-25 215451](https://github.com/user-attachments/assets/e0257654-7f17-4e19-8dbe-aec278195ebb)
