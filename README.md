@@ -9,9 +9,8 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 ## image
 ### web
 ![한이음 주차 로그인 전](https://github.com/user-attachments/assets/2c90aef3-29ac-4dc2-bb35-88d9ad5cee91)
-![한이음 주차 로그인 웹](https://github.com/user-attachments/assets/44b787f6-b5d5-4a5c-8519-62d8bfa0ab2e)
-![스크린샷 2024-08-25 214305](https://github.com/user-attachments/assets/384c455a-c573-4ff1-a2e2-df5a9f1d74af)
 ![스크린샷 2024-08-25 214347](https://github.com/user-attachments/assets/bf471dae-5693-4cb0-ba3b-855f181b1fc5)
+![한이음 주차 로그인 웹](https://github.com/user-attachments/assets/44b787f6-b5d5-4a5c-8519-62d8bfa0ab2e)
 ![스크린샷 2024-08-25 214459](https://github.com/user-attachments/assets/ce1c4bd8-22b2-4140-b478-85c2babd9616)
 ![스크린샷 2024-08-25 214509](https://github.com/user-attachments/assets/32b75eef-e3a8-4027-b499-123be69dc935)
 ![스크린샷 2024-08-25 214522](https://github.com/user-attachments/assets/1f654db0-4476-403f-8ef3-39dbf244580b)
