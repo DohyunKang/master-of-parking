@@ -29,8 +29,8 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 ![스크린샷 2024-08-25 214947](https://github.com/user-attachments/assets/8ded9881-3f49-4881-8b87-667fa3c8f7a0)
 ![스크린샷 2024-08-25 215003](https://github.com/user-attachments/assets/1b6bdbd6-f9a8-4320-8660-830b0be0baba)
 ### mobile
-<img width="500" alt="2" src="https://github.com/user-attachments/assets/18ab38db-71b3-4740-93b9-d90556efc9a1">
-
+![스크린샷 2024-08-25 215338](https://github.com/user-attachments/assets/6b2ea412-265b-4e1b-ae1b-9b386b9faef6)
+![스크린샷 2024-08-25 215426](https://github.com/user-attachments/assets/d8c2b4da-17e9-48f7-85e9-5a3e2cc4323a)
 ![스크린샷 2024-08-25 215436](https://github.com/user-attachments/assets/cf9635b4-6e78-4590-997f-135dd96c4a48)
 ![스크린샷 2024-08-25 215451](https://github.com/user-attachments/assets/e0257654-7f17-4e19-8dbe-aec278195ebb)
 ![스크린샷 2024-08-25 215502](https://github.com/user-attachments/assets/250ed115-e82d-4026-8cf6-4ca0c5386d8c)
@@ -41,7 +41,7 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 ![스크린샷 2024-08-25 215755](https://github.com/user-attachments/assets/88d74a95-f6ba-4049-ba15-4bbd7bf64f2e)
 ![스크린샷 2024-08-25 215804](https://github.com/user-attachments/assets/66c45d7a-46ef-427d-be0d-6fcf7dcd77d6)
 !![스크린샷 2024-08-25 215404](https://github.com/user-attachments/assets/91eaf6ec-79ce-415d-baed-f009f522c4a3)
-![스크린샷 2024-08-25 215338](https://github.com/user-attachments/assets/6b2ea412-265b-4e1b-ae1b-9b386b9faef6)
+
 
 ## Basic Commands
 
