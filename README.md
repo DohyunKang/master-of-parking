@@ -30,6 +30,7 @@ Moved to [settings](http://cookiecutter-django.readthedocs.io/en/latest/settings
 ![스크린샷 2024-08-25 215003](https://github.com/user-attachments/assets/1b6bdbd6-f9a8-4320-8660-830b0be0baba)
 ### mobile
 <img width="500" alt="2" src="https://github.com/user-attachments/assets/18ab38db-71b3-4740-93b9-d90556efc9a1">
+
 ![스크린샷 2024-08-25 215436](https://github.com/user-attachments/assets/cf9635b4-6e78-4590-997f-135dd96c4a48)
 ![스크린샷 2024-08-25 215451](https://github.com/user-attachments/assets/e0257654-7f17-4e19-8dbe-aec278195ebb)
 ![스크린샷 2024-08-25 215502](https://github.com/user-attachments/assets/250ed115-e82d-4026-8cf6-4ca0c5386d8c)
